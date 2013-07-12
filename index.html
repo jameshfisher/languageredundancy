@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Programming language verbosity</title>
+
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        width: 800px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Programming language verbosity</h1>
+
+    <p>
+      When people discuss "language X vs. language Y",
+      one of the key factors under discussion is "verbosity":
+      "... but Java is just so verbose!"
+
+      Put another way, Java apparently has a very high level of redundancy.
+    </p>
+
+    <p>
+      One measure of redundancy in a signal is its compression ratio.
+      This is easily computed by comparing the size of code when uncompressed
+      to its size when compressed, with, say, gzip.
+    </p>
+
+    <p>
+      I tried this out on each language's most popular three projects on GitHub.
+      The results of this are charted below.
+    </p>
+
+    <div id="myChart" style="width: 100%; height: 400px;"></div>
+
+    <p>
+      Some observations:
+
+      <ul>
+        <li>
+          That old criticism of Java is totally right.
+          Java is over twice as verbose as the most character-efficient languages.
+        </li>
+
+        <li>
+          Whitespace-sensitive languages do well in this test.
+
+          This is because curly-brace languages <em>also</em> use whitespace indentation,
+          thus encoding the same information twice.
+        </li>
+
+        <li>
+          I have an untested theory that two things contribute to overall redundancy:
+
+          <ul>
+            <li>Syntactic redundancy (<code>"public static void main"</code>)</li>
+            <li>Semantic redundancy (lack of support for abstraction, leading to copy-and-paste)</li>
+          </ul>
+        </li>
+      </ul>
+    </p>
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script>
+
+      $(function () {
+        $('#myChart').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Code redundancy by programming language (higher is better)'
+            },
+            xAxis: {
+                categories: ["Java","C#","JavaScript","PHP","C","Python","Haskell","Ruby"]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'average compressed size / uncompressed size (%)'
+                }
+            },
+            series: [{
+                name: "Programming language",
+                data: [10,12,15,17,17,18,20,24]
+            }]
+        });
+    });
+
+
+    </script>
+  </body>
+</html>
