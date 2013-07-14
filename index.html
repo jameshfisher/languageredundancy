@@ -33,7 +33,17 @@
       The results of this are charted below.
     </p>
 
-    <div id="myChart" style="width: 100%; height: 400px;"></div>
+    <div id="project_chart" style="width: 100%; height: 600px;"></div>
+
+    <p>
+      Disparate projects in the same language bunch closely together.
+
+      This implies the language is an important factor in the project's redundancy level.
+
+      See how the languages stack up:
+    </p>
+
+    <div id="language_chart" style="width: 100%; height: 400px;"></div>
 
     <p>
       Some observations:
@@ -55,7 +65,7 @@
           I have an untested theory that two things contribute to overall redundancy:
 
           <ul>
-            <li>Syntactic redundancy (<code>"public static void main"</code>)</li>
+            <li>Syntactic redundancy (e.g., curly braces)</li>
             <li>Semantic redundancy (lack of support for abstraction, leading to copy-and-paste)</li>
           </ul>
         </li>
@@ -67,22 +77,38 @@
     <script>
 
       $(function () {
-        $('#myChart').highcharts({
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: 'Code redundancy by programming language (higher is better)'
+        $('#project_chart').highcharts({
+          chart: { type: 'column' },
+            title: { text: 'Code redundancy by project (higher is better)' },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'compressed size / uncompressed size (%)'
+                }
             },
             xAxis: {
-                categories: ["Java","C#","JavaScript","PHP","C","Python","Haskell","Ruby"]
-            },
+              categories: ["twitter/bootstrap (JavaScript)", "joyent/node (JavaScript)", "jquery/jquery (JavaScript)", "rails/rails (Ruby)", "FortAwesome/Font-Awesome (Ruby)", "mxcl/homebrew (Ruby)", "nathanmarz/storm (Java)", "elasticsearch/elasticsearch (Java)", "JakeWharton/ActionBarSherlock (Java)", "jgm/pandoc (Haskell)", "yesodweb/yesod (Haskell)", "jgm/gitit (Haskell)", "django/django (Python)", "mitsuhiko/flask (Python)", "kennethreitz/requests (Python)", "symfony/symfony (PHP)", "EllisLab/CodeIgniter (PHP)", "laravel/laravel (PHP)", "SignalR/SignalR (C#)", "hbons/SparkleShare (C#)", "ServiceStack/ServiceStack (C#)", "torvalds/linux (C)", "antirez/redis (C)", "git/git (C)"],
+              labels: {
+                rotation: 60,
+                align: "left"
+              }
+             },
+            series: [{
+                name: "Programming language",
+                data: [12, 13, 20, 15, 37, 21, 8, 8, 13, 19, 21, 22, 15, 18, 20, 10, 13, 29, 11, 13, 12, 14, 17, 20]
+            }]
+        });
+
+        $('#language_chart').highcharts({
+            chart: { type: 'column' },
+            title: { text: 'Code redundancy by programming language (higher is better)' },
             yAxis: {
                 min: 0,
                 title: {
                     text: 'average compressed size / uncompressed size (%)'
                 }
             },
+            xAxis: { categories: ["Java","C#","JavaScript","PHP","C","Python","Haskell","Ruby"] },
             series: [{
                 name: "Programming language",
                 data: [10,12,15,17,17,18,20,24]
